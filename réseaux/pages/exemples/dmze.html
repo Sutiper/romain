@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>DMZ exemple - Synthèse Réseaux</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <div class="nav-flottant">
+    <div class="nav-item">
+      <div class="nav-bouton">🗺️</div>
+      <div class="nav-menu">
+        <a href="#id">nom a mettre</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-bouton">📄</div>
+      <div class="nav-menu">
+        <a href="../index.html">Accueil</a>
+        <a href="cdb.html">Configuration de Base</a>
+        <a href="crs.html">Routage</a>
+        <a href="acl.html">Configuration de ACL</a>
+        <a href="tai.html">Translation d'adresses IP</a>
+        <a href="rscdhcp.html">Routeur DHCP</a>
+        <a href="dmz.html">DMZ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-droite">
+    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
+  </div>
+
+  <script>
+    if (localStorage.getItem('dark') === 'on') {
+      document.body.classList.add('dark');
+      document.getElementById('theme-btn').textContent = '☀️';
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('dark', isDark ? 'on' : 'off');
+      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+    }
+  </script>
+
+  <div class="page">
+    <h1>DMZ exemple</h1>
+    <nav class="nav-back">
+      <a href="../../index.html">← Retour Synthèse</a>
+      <a href="../dmz.html">← Retour</a>
+    </nav>
+    <div class="content-zone">
+
+        <img src="images/exdmz.jpg">
+
+        <!-- ZONE TEXTE VERTICAL CENTRÉ -->
+        <h2>config acl (routeur)</h2>
+        <div class="zone-centre">
+            <p>
+                (config)#access-list 100 permit tcp any host 10.10.10.10 eq 80<br>
+                (config)#access-list 100 permit udp any host 10.10.10.10 eq 69<br>
+                (config)#access-list 100 permit tcp any host 10.10.10.11 eq 80<br>
+                (config)#access-list 100 permit tcp any host 10.10.10.11 eq 443<br>
+                (config)#access-list 100 permit tcp any host 10.10.10.11 eq 21<br>
+                (config)#access-list 100 deny ip any 192.168.10.0 0.0.0.255<br>
+                (config)#access-list 100 permit ip any any
+            </p>
+        </div>
+
+        <!-- ZONE TEXTE VERTICAL CENTRÉ -->
+        <h2>Application de l’ACL sur l’interface Internet (routeur)</h2>
+        <div class="zone-centre">
+            <p>
+                (config)#interface Serial0/0/0<br>
+                (config-if)#ip access-group 100 in
+            </p>
+        </div>
+
+        <!-- ZONE ATTENTION -->
+      <div class="zone-attention">
+        <strong>⚠️ ATTENTION :</strong> commande non vérifier !
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

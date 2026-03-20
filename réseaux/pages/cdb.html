@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Configuration de Base - Synthèse Réseaux</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="nav-flottant">
+    <div class="nav-item">
+      <div class="nav-bouton">🗺️</div>
+      <div class="nav-menu">
+        <a href="#hostname">Modification du hostname</a>
+        <a href="#enable-password">Mot de passe Enable</a>
+        <a href="#enable-secret">Mot de passe Enable sécurisé</a>
+        <a href="#console">Mot de passe Console</a>
+        <a href="#vlan">Mise en place d'un VLAN</a>
+        <a href="#ip-switch">Configuration IP (switch)</a>
+        <a href="#trunk">Configuration trunk</a>
+        <a href="#ip-router">Configuration IP (router)</a>
+        <a href="#sous-interface">Configuration sous-interface</a>
+        <a href="#stp">Activation/Désactivation STP</a>
+        <a href="#stp-priorite">Priorité STP</a>
+        <a href="#telnet">Telnet</a>
+        <a href="#save">Sauvegarde</a>
+        <a href="#reset">Reset</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-bouton">📄</div>
+      <div class="nav-menu">
+        <a href="../index.html">Accueil</a>
+        <a href="crs.html">Routage</a>
+        <a href="acl.html">Configuration de ACL</a>
+        <a href="tai.html">Translation d'adresses IP</a>
+        <a href="rscdhcp.html">Routeur DHCP</a>
+        <a href="dmz.html">DMZ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-droite">
+    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
+  </div>
+
+  <script>
+    if (localStorage.getItem('dark') === 'on') {
+      document.body.classList.add('dark');
+      document.getElementById('theme-btn').textContent = '☀️';
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('dark', isDark ? 'on' : 'off');
+      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+    }
+  </script>
+
+  <div class="page">
+    <h1>Configuration de Base</h1>
+    <nav class="nav-back">
+      <a href="../index.html">← Retour Synthèse</a>
+    </nav>
+    <div class="content-zone">
+
+      <div class="texte-long">
+        <p>Cette page présente une synthèse des principales commandes de configuration de base sur les équipements réseau Cisco (switch et routeur), 
+          incluant la modification du hostname, la configuration des mots de passe, la sauvegarde et la réinitialisation de la configuration, 
+          la création et l'attribution de VLAN, la configuration des adresses IP, la mise en place d'un trunk, 
+          l'utilisation des sous-interfaces pour le routage inter-VLAN, la gestion du protocole STP ainsi que l'activation d'un accès distant via Telnet.</p>
+      </div>
+
+      <h2 id="hostname">Modification du hostname (switch/router)</h2>
+      <div class="zone-centre">
+        <p>(config)#hostname <u>'nom'</u></p>
+      </div>
+
+      <h2 id="enable-password">Mot de Passe Enable (switch/router)</h2>
+      <div class="zone-centre">
+        <p>(config)#enable password <u>'mot de passe'</u></p>
+      </div>
+
+      <h2 id="enable-secret">Mot de Passe Enable sécurisé (switch/router)</h2>
+      <div class="zone-centre">
+        <p>(config)#enable secret <u>'mot de passe'</u></p>
+      </div>
+
+      <h2 id="console">Mot de Passe de Console (switch/router)</h2>
+      <div class="zone-centre">
+        <p>(config)#line console 0<br>
+           (config-line)#password <u>'mot de passe'</u><br>
+           (config-line)#login</p>
+      </div>
+
+      <h2 id="vlan">Mise en place d'un VLAN (switch)</h2>
+      <div class="zone-centre">
+        <p>(config)#vlan <u>'num du vlan'</u><br>
+           (config-vlan)#name <u>'nom du vlan'</u><br>
+           (config-vlan)#exit<br>
+           (config)#interface fastethernet <u>'num port'</u><br>
+           (config-if)#switchport mode access<br>
+           (config-if)#switchport access vlan <u>'num du vlan'</u></p>
+      </div>
+
+      <h2 id="ip-switch">Configuration IP (switch)</h2>
+      <div class="zone-centre">
+        <p>(config)#interface vlan <u>'num du vlan'</u><br>
+           (config-if)#ip address <u>'ip du switch'</u> <u>'masque'</u><br>
+           (config-if)#no shutdown<br>
+           (config)#ip default-gateway <u>'ip du routeur'</u></p>
+      </div>
+
+      <h2 id="trunk">Configuration trunk (switch)</h2>
+      <div class="zone-centre">
+        <p>(config)#interface fastethernet <u>'num du port'</u><br>
+           (config-if)#switchport mode trunk<br>
+           <u>(config-if)#switchport trunk allowed vlan 1,10,20,30 (optionnel)</u></p>
+      </div>
+
+      <h2 id="ip-router">Configuration IP (router)</h2>
+      <div class="zone-centre">
+        <p>(config)#interface GigabitEthernet <u>'num interface'</u><br>
+           (config-if)#ip address <u>'ip du routeur'</u> <u>'masque'</u><br>
+           (config-if)#no shutdown</p>
+      </div>
+
+      <h2 id="sous-interface">Configuration ip sous interface (router)</h2>
+      <div class="zone-centre">
+        <p>(config)#interface fastethernet <u>'num interface'</u><br>
+           (config-if)#no shutdown

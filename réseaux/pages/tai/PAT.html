@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>NAT dynamique PAT - Synthèse Réseaux</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <div class="nav-flottant">
+    <div class="nav-item">
+      <div class="nav-bouton">🗺️</div>
+      <div class="nav-menu">
+        <a href="#1">Commande</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-bouton">📄</div>
+      <div class="nav-menu">
+        <a href="../../index.html">Accueil</a>
+        <a href="../cdb.html">Configuration de Base</a>
+        <a href="../crs.html">Routage</a>
+        <a href="../acl.html">Configuration de ACL</a>
+        <a href="../tai.html">Translation d'adresses IP</a>
+        <a href="../rscdhcp.html">Routeur DHCP</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-bouton">📁</div>
+      <div class="nav-menu">
+        <a href="../tai.html">Menu translation</a>
+        <a href="NAT.html">NAT Statique</a>
+        <a href="NRP.html">NAT Redirection de Port</a>
+        <a href="POOL.html">Pool</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-droite">
+    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
+  </div>
+
+  <script>
+    if (localStorage.getItem('dark') === 'on') {
+      document.body.classList.add('dark');
+      document.getElementById('theme-btn').textContent = '☀️';
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('dark', isDark ? 'on' : 'off');
+      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+    }
+  </script>
+
+  <div class="page">
+    <h1>NAT dynamique PAT</h1>
+    <nav class="nav-back">
+      <a href="../tai.html">← Retour</a>
+    </nav>
+    <div class="content-zone">
+
+      <h2 id="1">Commande (router)</h2>
+      <div class="zone-centre">
+        <p>(config)#access-list <u>'num acl'</u> permit <u>'ip réseaux interne'</u> <u>'masque'</u><br>
+           (config)#ip nat inside source list <u>'num acl'</u> interface serial <u>'num port'</u> overload</p>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

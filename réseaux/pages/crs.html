@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Routage statique et routes par défaut - Synthèse Réseaux</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="nav-flottant">
+    <div class="nav-item">
+      <div class="nav-bouton">🗺️</div>
+      <div class="nav-menu">
+        <a href="#route-statique">Routage statique</a>
+        <a href="#conf-routage">Route par défaut</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-bouton">📄</div>
+      <div class="nav-menu">
+        <a href="../index.html">Accueil</a>
+        <a href="cdb.html">Configuration de Base</a>
+        <a href="acl.html">Configuration de ACL</a>
+        <a href="tai.html">Translation d'adresses IP</a>
+        <a href="rscdhcp.html">Routeur DHCP</a>
+        <a href="dmz.html">DMZ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-droite">
+    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
+  </div>
+
+  <script>
+    if (localStorage.getItem('dark') === 'on') {
+      document.body.classList.add('dark');
+      document.getElementById('theme-btn').textContent = '☀️';
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('dark', isDark ? 'on' : 'off');
+      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+    }
+  </script>
+
+  <div class="page">
+    <h1>Routage statique et routes par défaut</h1>
+    <nav class="nav-back">
+      <a href="../index.html">← Retour Synthèse</a>
+    </nav>
+    <div class="content-zone">
+
+      <div class="texte-long">
+        <p>Cette page présente une introduction au routage statique et aux routes par défaut sur les routeurs, 
+        avec des exemples de configuration entre deux routeurs, une explication du fonctionnement des routes 
+        statiques.</p>
+      </div>
+
+      <h2 id="route-statique">Configuration de routage statique entre deux routeurs</h2>
+      <div class="doubles-config">
+        <div class="double_boites">
+          <h2>Config Router1</h2>
+          <div class="double-content">
+            <p>(config)#interface serial <u>'num port'</u><br>
+               (config-if)#ip address <u>'ip coté serie'</u> <u>'masque'</u><br>
+               (config-if)#clock rate 64000 <u>'seulement côté DCE'</u><br>
+               (config-if)#no shutdown<br>
+               (config)#ip route <u>'ip réseau dest'</u> <u>'masque'</u> <u>'next-hop'</u> <u>'AD' (optionnel)</u></p>
+          </div>
+        </div>
+        <div class="double_boites">
+          <h2>Config Router2</h2>
+          <div class="double-content">
+            <p>(config)#interface serial <u>'num port'</u><br>
+               (config-if)#ip address <u>'ip coté serie'</u> <u>'masque'</u><br>
+               (config-if)#no shutdown<br>
+               (config)#ip route <u>'ip réseau dest'</u> <u>'masque'</u> <u>'next-hop'</u> <u>'AD' (optionnel)</u></p>
+          </div>
+        </div>
+      </div>
+
+      <h2>Explications</h2>
+      <div class="texte-long">
+        <p>Cette configuration montre comment relier deux routeurs via une interface série et ajouter 
+          des routes statiques afin que chaque routeur sache par quel next-hop passer pour atteindre le réseau de l'autre.</p>
+      </div>
+
+      <h2 id="conf-routage">Configuration du routage par défaut (router)</h2>
+      <div class="zone-centre">
+        <p>(config)#ip route 0.0.0.0 0.0.0.0 serial <u>'num port'</u><br>
+           <u>ou</u><br>
+           (config)#ip route 0.0.0.0 0.0.0.0 <u>'IP du next-hop'</u></p>
+      </div>
+
+      <div class="zone-attention">
+        <strong>⚠️ ATTENTION :</strong> La distance administrative (AD) sert à choisir la meilleure route lorsqu'il existe plusieurs chemins vers un même réseau.
+        La route avec l'AD la plus basse est choisie et, en cas d'égalité, le protocole compare sa métrique interne.
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

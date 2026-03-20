@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Configuration de ACL - Synthèse Réseaux</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="nav-flottant">
+    <div class="nav-item">
+      <div class="nav-bouton">🗺️</div>
+      <div class="nav-menu">
+        <a href="#ACL-standard">ACL standard</a>
+        <a href="#acl-etendu">ACL étendu</a>
+        <a href="#pre">Précisions</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-bouton">📄</div>
+      <div class="nav-menu">
+        <a href="../index.html">Accueil</a>
+        <a href="cdb.html">Configuration de Base</a>
+        <a href="crs.html">Routage</a>
+        <a href="tai.html">Translation d'adresses IP</a>
+        <a href="rscdhcp.html">Routeur DHCP</a>
+        <a href="dmz.html">DMZ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-droite">
+    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
+  </div>
+
+  <script>
+    if (localStorage.getItem('dark') === 'on') {
+      document.body.classList.add('dark');
+      document.getElementById('theme-btn').textContent = '☀️';
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('dark', isDark ? 'on' : 'off');
+      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+    }
+  </script>
+
+  <div class="page">
+    <h1>Configuration de ACL</h1>
+    <nav class="nav-back">
+      <a href="../index.html">← Retour Synthèse</a>
+    </nav>
+    <div class="content-zone">
+
+      <div class="texte-long">
+        <p>Une ACL (Access Control List) sert à contrôler et filtrer le trafic réseau en autorisant ou en
+          bloquant certains paquets selon des critères comme l'adresse IP source, l'adresse
+          de destination, le protocole ou le port.</p>
+      </div>
+
+      <h2 id="ACL-standard">ACL standard (routeur)</h2>
+      <div class="doubles-config">
+        <div class="double_boites">
+          <h2>Option 1</h2>
+          <div class="double-content">
+            <p>(config)#access-list <u>'num acl'</u> <u>'autorisation'</u> <u>'ip réseaux source'</u> <u>'masque'</u><br>
+               (config)#access-list <u>'num acl'</u> permit any <u>(autorise le reste du trafic, optionnel)</u><br>
+               (config)#interface fastethernet <u>'num port'</u><br>
+               (config-if)#ip access-group <u>'num acl'</u> <u>'sens'</u></p>
+          </div>
+        </div>
+        <div class="double_boites">
+          <h2>Option 2</h2>
+          <div class="double-content">
+            <p>(config)#access-list <u>'num acl'</u> <u>'autorisation'</u> <u>'ip source'</u> 0.0.0.0<br>
+               (config)#access-list <u>'num acl'</u> permit any <u>(autorise le reste du trafic, optionnel)</u><br>
+               (config)#interface fastethernet <u>'num port'</u><br>
+               (config-if)#ip access-group <u>'num acl'</u> <u>'sens'</u></p>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="acl-etendu">ACL étendu</h2>
+      <div class="zone-centre">
+        <p>(config)#access-list <u>'num acl'</u> <u>'autorisation'</u> <u>'trafic'</u> <u>'ip réseaux source'</u> <u>'masque'</u> <u>'destination'</u> <u>'operateur' 'port dest' (optionnel)</u><br>
+           (config)#interface fastethernet <u>'num port'</u><br>
+           (config-if)#ip access-group <u>'num acl'</u> <u>'sens'</u></p>
+      </div>
+
+      <h2 id="pre">Précisions</h2>
+      <table class="table">
+        <thead>
+          <tr><th>indication</th><th>valeur</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>sens</td><td>'in' ou 'out'</td></tr>
+          <tr><td>autorisation</td><td>'deny' ou 'permit'</td></tr>
+          <tr><td>trafic</td><td>'tcp' ou 'udp' ou 'ip' ou 'icmp' ou 'any'</td></tr>
+          <tr><td>operateur</td><td>'eq' ou 'gt' ou 'lt' ou 'neq'</td></tr>
+          <tr><td>port dest</td><td>'telnet(21)' ou 'http(80)' etc</td></tr>
+        </tbody>
+      </table>
+
+      <div class="zone-attention">
+        <strong>⚠️ ATTENTION :</strong> Les ACL standard (1-99) filtrent uniquement selon l'adresse source
+        et se placent près de la destination, tandis que les ACL étendues (100-199) filtrent selon l'adresse
+        source, destination, le protocole et le port, et se placent près de la source.
+      </div>
+
+      <!-- ZONE ATTENTION -->
+      <div class="zone-attention">
+        <strong>⚠️ ATTENTION :</strong>préciser host si adresse precise ou mettre 0.0.0.0
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

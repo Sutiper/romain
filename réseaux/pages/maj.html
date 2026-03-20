@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>mise a jour - Synthèse Réseaux</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="nav-droite">
+    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
+  </div>
+
+  <script>
+    if (localStorage.getItem('dark') === 'on') {
+      document.body.classList.add('dark');
+      document.getElementById('theme-btn').textContent = '☀️';
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('dark', isDark ? 'on' : 'off');
+      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+    }
+  </script>
+
+  <div class="page">
+    <h1>liste des mise a jours</h1>
+    <nav class="nav-back">
+      <a href="../index.html">← Retour Synthèse</a>
+    </nav>
+    <div class="content-zone">
+    
+    <div class="row">
+      <a href="MAJ/11.html" class="bouton">V1.1</a>
+      <a href="MAJ/12.html" class="bouton">V1.2</a>
+      <a href="MAJ/13.html" class="bouton">V1.3</a>
+    </div>
+
+    <div class="row">
+      <a href="MAJ/14.html" class="bouton">V1.4</a>
+      <a href="MAJ/15.html" class="bouton">V1.5</a>
+      <a href="MAJ/16.html" class="bouton">V1.6</a>
+    </div>
+
+    </div>
+
+</body>
+</html>

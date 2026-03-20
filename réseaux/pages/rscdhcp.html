@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Routeur serveur/client DHCP - Synthèse Réseaux</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="nav-flottant">
+    <div class="nav-item">
+      <div class="nav-bouton">🗺️</div>
+      <div class="nav-menu">
+        <a href="#rdhcp">Retirer le DHCP</a>
+        <a href="#rdhcp2">Configuration DHCP</a>
+        <a href="#rdhcp3">Exclure des adresses DHCP</a>
+        <a href="#rdhcp4">Routeur client</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <div class="nav-bouton">📄</div>
+      <div class="nav-menu">
+        <a href="../index.html">Accueil</a>
+        <a href="cdb.html">Configuration de Base</a>
+        <a href="crs.html">Routage</a>
+        <a href="acl.html">Configuration de ACL</a>
+        <a href="tai.html">Translation d'adresses IP</a>
+        <a href="dmz.html">DMZ</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-droite">
+    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
+  </div>
+
+  <script>
+    if (localStorage.getItem('dark') === 'on') {
+      document.body.classList.add('dark');
+      document.getElementById('theme-btn').textContent = '☀️';
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('dark', isDark ? 'on' : 'off');
+      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+    }
+  </script>
+
+  <div class="page">
+    <h1>Routeur serveur/client DHCP</h1>
+    <nav class="nav-back">
+      <a href="../index.html">← Retour Synthèse</a>
+    </nav>
+    <div class="content-zone">
+
+      <div class="texte-long">
+        <p>Cette page présente la configuration DHCP sur un routeur, en montrant
+          comment désactiver le service DHCP, créer un pool DHCP avec réseau, passerelle,
+          DNS, domaine et durée du bail, exclure des adresses IP individuelles ou par plage,
+          et comment configurer un routeur en client DHCP pour recevoir automatiquement une adresse IP.</p>
+      </div>
+
+      <h2 id="rdhcp">Desactiver le DHCP (router)</h2>
+      <div class="zone-centre">
+        <p>(config)#no service dhcp</p>
+      </div>
+
+      <h2 id="rdhcp2">Configuration DHCP (router)</h2>
+      <div class="zone-centre">
+        <p>(config)#ip dhcp pool <u>'nom du pool'</u><br>
+           (dhcp-config)#network <u>'ip réseau'</u> <u>'masque'</u><br>
+           (dhcp-config)#default-router <u>'ip de l'interface'</u><br>
+           (dhcp-config)#dns-server <u>'ip dns' (optionnel)</u><br>
+           (dhcp-config)#domain-name <u>'nom de domaine'</u><br>
+           (dhcp-config)#lease 0 1 30 <u>(Durée du bail)</u></p>
+      </div>
+
+      <div class="zone-attention">
+        <strong>⚠️ ATTENTION :</strong> Mettre une IP à l'interface (sous interfaces).
+      </div>
+
+      <h2 id="rdhcp3">Exclure une ou plusieurs adresses DHCP (router)</h2>
+      <div class="doubles-config">
+        <div class="double_boites">
+          <h2>Individuel</h2>
+          <div class="double-content">
+            <p>(config)#ip dhcp excluded-address <u>'ip a exclure'</u></p>
+          </div>
+        </div>
+        <div class="double_boites">
+          <h2>Plage</h2>
+          <div class="double-content">
+            <p>(config)#ip dhcp excluded-address <u>'ip debut'</u> <u>'ip fin'</u></p>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="rdhcp4">Routeur de passage (router)</h2>
+      <div class="zone-centre">
+        <p>(config-if)#ip helper-address <u>ip helper-address ‘ip du routeur dhcp’</u></p>
+      </div>
+
+      <!-- ZONE ATTENTION -->
+      <div class="zone-attention">
+        <strong>⚠️ ATTENTION :</strong> precisser l’ip route et mettre sur l'interface utiliser pour le reseau qui demande.
+      </div>
+
+      <h2 id="rdhcp4">Routeur client (router)</h2>
+      <div class="zone-centre">
+        <p>(config-if)#ip address dhcp</p>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
