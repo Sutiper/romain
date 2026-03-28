@@ -1,0 +1,83 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Obtenir le dernier tag
+        id: last_tag
+        run: |
+          git fetch --tags
+          LAST=$(git tag --sort=-version:refname | head -n 1)
+          if [ -z "$LAST" ]; then
+            echo "tag=v0.0.0" >> $GITHUB_OUTPUT
+          else
+            echo "tag=$LAST" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Calculer le nouveau tag
+        id: new_tag
+        run: |
+          LAST="${{ steps.last_tag.outputs.tag }}"
+          BASE=$(echo $LAST | sed 's/^v//')
+          MAJOR=$(echo $BASE | cut -d. -f1)
+          MINOR=$(echo $BASE | cut -d. -f2)
+          PATCH=$(echo $BASE | cut -d. -f3)
+          PATCH=$((PATCH + 1))
+          NEW="v${MAJOR}.${MINOR}.${PATCH}"
+          echo "tag=$NEW" >> $GITHUB_OUTPUT
+
+      - name: Créer l'archive du site
+        run: |
+          zip -r site.zip . -x "*.git*" -x ".github/*"
+
+      - name: Créer la release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.new_tag.outputs.tag }}
+          name: "Release ${{ steps.new_tag.outputs.tag }}"
+          body: "Release automatique suite au push du ${{ github.event.head_commit.timestamp }} — ${{ github.event.head_commit.message }}"
+          files: site.zip
+
+      - name: Supprimer les anciennes releases (garder 5)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const releases = await github.paginate(github.rest.repos.listReleases, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              per_page: 100
+            });
+
+            releases.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            const aSupprimer = releases.slice(5);
+
+            for (const release of aSupprimer) {
+              console.log(`Suppression release: ${release.tag_name}`);
+              await github.rest.repos.deleteRelease({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                release_id: release.id
+              });
+              await github.rest.git.deleteRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `tags/${release.tag_name}`
+              });
+            }
+
+            console.log(`${aSupprimer.length} release(s) supprimée(s), ${Math.min(releases.length, 5)} conservée(s).`);
