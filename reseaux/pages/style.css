@@ -126,7 +126,7 @@ body.dark .table tbody tr:nth-child(even) td { background: #1a2a3a; }
 
 
 /* SUBNET CALCULATOR */
-.nav-subnet { position: fixed; top: 5%; right: 2%; z-index: 1000; display: flex; align-items: flex-start; flex-direction: column; gap: 10px; }
+.nav-subnet { position: fixed; top: calc(5% + 60px); right: 2%; z-index: 1000; display: flex; align-items: flex-start; flex-direction: column; gap: 10px; }
 
 .subnet-panel {
   background: white; border: 2px solid #007cba; border-radius: 12px;
