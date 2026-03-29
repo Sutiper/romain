@@ -56,6 +56,7 @@ function calculateSubnet() {
 if (!localStorage.getItem('cookies-ok')) {
   document.getElementById('cookie-banner').style.display = 'block';
 }
+
 function acceptCookies() {
   localStorage.setItem('cookies-ok', 'yes');
   document.getElementById('cookie-banner').style.display = 'none';
@@ -67,8 +68,9 @@ function setTheme(theme) {
   document.getElementById('theme-menu').classList.remove('open');
 }
 
-if (localStorage.getItem('theme')) {
-  document.body.className = localStorage.getItem('theme');
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme !== null) {
+  document.body.className = savedTheme;
 }
 
 function toggleThemeMenu() {
