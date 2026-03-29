@@ -30,8 +30,6 @@
     </div>
   </div>
 
-  <script src="pages/subnet.js"></script>
-
   <div class="nav-droite">
     <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
     <div id="theme-menu" class="theme-menu">
@@ -55,34 +53,6 @@
   </div>
 
   <script src="subnet.js"></script>
-  <script>
-    if (localStorage.getItem('dark') === 'on') {
-      document.body.classList.add('dark');
-      document.getElementById('theme-btn').textContent = '☀️';
-    }
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      localStorage.setItem('dark', isDark ? 'on' : 'off');
-      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
-    }
-    async function telechargerRelease() {
-      const btn = document.getElementById('dl-btn');
-      btn.textContent = '⏳ Chargement...';
-      try {
-        const res = await fetch('https://api.github.com/repos/Sutiper/romain/releases/latest');
-        const data = await res.json();
-        if (data.assets && data.assets.length > 0) {
-          window.location.href = data.assets[0].browser_download_url;
-          btn.textContent = '⬇️ TÉLÉCHARGER LA DERNIÈRE RELEASE';
-        } else {
-          btn.textContent = '❌ Aucun fichier disponible';
-        }
-      } catch (e) {
-        btn.textContent = '❌ Erreur de connexion';
-      }
-    }
-  </script>
 
   <div class="page">
     <h1>Configuration de ACL</h1>
@@ -146,7 +116,6 @@
         source, destination, le protocole et le port, et se placent près de la source.
       </div>
 
-      <!-- ZONE ATTENTION -->
       <div class="zone-attention">
         <strong>⚠️ ATTENTION :</strong>préciser host si adresse precise ou mettre 0.0.0.0
       </div>

@@ -41,8 +41,6 @@
     </div>
   </div>
 
-  <script src="pages/subnet.js"></script>
-
   <div class="nav-droite">
     <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
     <div id="theme-menu" class="theme-menu">
@@ -66,34 +64,6 @@
   </div>
 
   <script src="subnet.js"></script>
-  <script>
-    if (localStorage.getItem('dark') === 'on') {
-      document.body.classList.add('dark');
-      document.getElementById('theme-btn').textContent = '☀️';
-    }
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      localStorage.setItem('dark', isDark ? 'on' : 'off');
-      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
-    }
-    async function telechargerRelease() {
-      const btn = document.getElementById('dl-btn');
-      btn.textContent = '⏳ Chargement...';
-      try {
-        const res = await fetch('https://api.github.com/repos/Sutiper/romain/releases/latest');
-        const data = await res.json();
-        if (data.assets && data.assets.length > 0) {
-          window.location.href = data.assets[0].browser_download_url;
-          btn.textContent = '⬇️ TÉLÉCHARGER LA DERNIÈRE RELEASE';
-        } else {
-          btn.textContent = '❌ Aucun fichier disponible';
-        }
-      } catch (e) {
-        btn.textContent = '❌ Erreur de connexion';
-      }
-    }
-  </script>
 
   <div class="page">
     <h1>Configuration de Base</h1>
@@ -165,5 +135,53 @@
 
       <h2 id="sous-interface">Configuration ip sous interface (router)</h2>
       <div class="zone-centre">
-        <p>(config)#interface fastethernet <u>'num interface'</u><br>
-           (config-if)#no shutdown
+        <p>(config)#interface fastethernet <u>'num interface'</u>.<u>'num sous-interface'</u><br>
+           (config-subif)#encapsulation dot1Q <u>'num vlan'</u><br>
+           (config-subif)#ip address <u>'ip'</u> <u>'masque'</u></p>
+      </div>
+
+      <h2 id="stp">Activation/Désactivation STP (switch)</h2>
+      <div class="doubles-config">
+        <div class="double_boites">
+          <h2>Désactiver</h2>
+          <div class="double-content">
+            <p>(config)#no spanning-tree vlan <u>'num vlan'</u></p>
+          </div>
+        </div>
+        <div class="double_boites">
+          <h2>Activer</h2>
+          <div class="double-content">
+            <p>(config)#spanning-tree vlan <u>'num vlan'</u></p>
+          </div>
+        </div>
+      </div>
+
+      <h2 id="stp-priorite">Priorité STP (switch)</h2>
+      <div class="zone-centre">
+        <p>(config)#spanning-tree vlan <u>'num vlan'</u> priority <u>'valeur'</u></p>
+      </div>
+
+      <h2 id="telnet">Telnet (switch/router)</h2>
+      <div class="zone-centre">
+        <p>(config)#line vty 0 4<br>
+           (config-line)#password <u>'mot de passe'</u><br>
+           (config-line)#login<br>
+           (config-line)#transport input telnet</p>
+      </div>
+
+      <h2 id="save">Sauvegarde (switch/router)</h2>
+      <div class="zone-centre">
+        <p>#copy running-config startup-config</p>
+      </div>
+
+      <h2 id="reset">Reset (switch/router)</h2>
+      <div class="zone-centre">
+        <p>#erase startup-config<br>
+           #reload</p>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>
