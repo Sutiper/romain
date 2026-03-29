@@ -31,8 +31,16 @@
 
     </div>
 
-    <div class="nav-droite">
-    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
+    <script src="pages/subnet.js"></script>
+
+  <div class="nav-droite">
+    <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
+    <div id="theme-menu" class="theme-menu">
+      <div class="theme-option" onclick="setTheme('')">🌸 Rose/Violet</div>
+      <div class="theme-option" onclick="setTheme('theme-bleu')">🌊 Bleu</div>
+      <div class="theme-option" onclick="setTheme('theme-vert')">🌿 Vert</div>
+      <div class="theme-option" onclick="setTheme('theme-sombre')">🌙 Sombre</div>
+    </div>
   </div>
 
   <div class="nav-subnet">
