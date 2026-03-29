@@ -32,6 +32,19 @@
     <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
   </div>
 
+  <div class="nav-subnet">
+    <div class="nav-bouton" onclick="toggleSubnet()">🖩</div>
+    <div id="subnet-panel" class="subnet-panel">
+      <h3>Calculateur IPv4</h3>
+      <div class="subnet-input-zone">
+        <input type="text" id="subnet-input" placeholder="192.168.0.0/24" onkeydown="if(event.key==='Enter') calculateSubnet()">
+        <button onclick="calculateSubnet()">OK</button>
+      </div>
+      <div class="subnet-result" id="subnet-result"></div>
+    </div>
+  </div>
+
+  <script src="subnet.js"></script>
   <script>
     if (localStorage.getItem('dark') === 'on') {
       document.body.classList.add('dark');
@@ -42,6 +55,22 @@
       const isDark = document.body.classList.contains('dark');
       localStorage.setItem('dark', isDark ? 'on' : 'off');
       document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+    }
+    async function telechargerRelease() {
+      const btn = document.getElementById('dl-btn');
+      btn.textContent = '⏳ Chargement...';
+      try {
+        const res = await fetch('https://api.github.com/repos/Sutiper/romain/releases/latest');
+        const data = await res.json();
+        if (data.assets && data.assets.length > 0) {
+          window.location.href = data.assets[0].browser_download_url;
+          btn.textContent = '⬇️ TÉLÉCHARGER LA DERNIÈRE RELEASE';
+        } else {
+          btn.textContent = '❌ Aucun fichier disponible';
+        }
+      } catch (e) {
+        btn.textContent = '❌ Erreur de connexion';
+      }
     }
   </script>
 
