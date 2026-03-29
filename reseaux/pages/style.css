@@ -108,7 +108,6 @@ img:hover { transform: scale(1.4); }
 
 /* SUBNET CALCULATOR */
 .nav-subnet { position: fixed; top: calc(5% + 60px); right: 2%; z-index: 1000; }
-
 .subnet-panel {
   position: absolute; right: 60px; top: 0;
   background: white; border: 2px solid #007cba; border-radius: 12px;
@@ -118,7 +117,6 @@ img:hover { transform: scale(1.4); }
 }
 .subnet-panel.open { max-height: 700px; opacity: 1; }
 .subnet-panel h3 { background: #007cba; color: white; padding: 3% 5%; font-size: 1.1em; border-radius: 10px 10px 0 0; }
-
 .subnet-input-zone { padding: 4% 5%; display: flex; gap: 8px; }
 .subnet-input-zone input {
   flex: 1; padding: 10px 14px; border: 2px solid #ddd; border-radius: 8px;
@@ -130,13 +128,28 @@ img:hover { transform: scale(1.4); }
   border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.05em; transition: background 0.2s;
 }
 .subnet-input-zone button:hover { background: #005a8e; }
-
 .subnet-result { padding: 0 5% 4%; }
 .subnet-table { width: 100%; border-collapse: collapse; font-size: 1em; }
 .subnet-table td { padding: 7px 10px; border-bottom: 1px solid #eee; color: #444; }
 .subnet-table td:first-child { color: #666; width: 55%; }
 .subnet-table tr:last-child td { border-bottom: none; }
 .mono { font-family: monospace; font-size: 0.85em; word-break: break-all; }
+
+/* THEME MENU */
+.theme-menu {
+  position: absolute; right: 60px; top: 0;
+  background: white; border: 2px solid #007cba; border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15); min-width: 180px;
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+.theme-menu.open { max-height: 300px; opacity: 1; }
+.theme-option {
+  display: block; padding: 12px 20px; color: #333; font-size: 0.95em;
+  border-bottom: 1px solid #eee; cursor: pointer; transition: background 0.2s;
+}
+.theme-option:last-child { border-bottom: none; }
+.theme-option:hover { background: #f0f8ff; color: #007cba; font-weight: bold; }
 
 /* COOKIES */
 .cookie-banner {
@@ -152,27 +165,32 @@ img:hover { transform: scale(1.4); }
 }
 .cookie-banner button:hover { background: #005a8e; }
 
-/* DARK MODE */
-body.dark { background: linear-gradient(135deg, #2a1a1a 0%, #1a1a2e 100%); }
-body.dark .page { background: #1e1e2e; color: #ccc; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-body.dark h1, body.dark h2 { color: #ddd; }
-body.dark .texte-long { background: #2a2a3e; color: #bbb; border-left-color: #4a9aba; }
-body.dark .zone-centre, body.dark .double-content { background: #1a2a3a; border-color: #4a9aba; }
-body.dark .nav-back a { background: rgba(255,255,255,0.1); color: #aaa; border-color: #555; }
-body.dark .nav-bouton { background: #2a2a3e; border-color: #4a9aba; }
-body.dark .nav-menu { background: #2a2a3e; border-color: #4a9aba; }
-body.dark .nav-menu a { color: #ccc; border-bottom-color: #3a3a4e; }
-body.dark .nav-menu a:hover { background: #1a2a3a; color: #7bc8e8; }
-body.dark .zone-attention { background: linear-gradient(90deg, #3a2a00, #2a2000); border-left-color: #cc4400; box-shadow: 0 4px 12px rgba(200,80,0,0.3); }
-body.dark .zone-attention strong { color: #ff8c5a; }
-body.dark .table th { background: #1a4a6a; color: #7bc8e8; }
-body.dark .table th:first-child { box-shadow: inset -3px 0 0 #0d2a3a; }
-body.dark .table td { color: #ccc; border-bottom-color: #3a3a4e; }
-body.dark .table td:first-child { border-right-color: #3a3a4e; }
-body.dark .table tbody tr:nth-child(even) td { background: #1a2a3a; }
-body.dark .subnet-panel { background: #2a2a3e; border-color: #4a9aba; }
-body.dark .subnet-panel h3 { background: #1a4a6a; }
-body.dark .subnet-input-zone input { background: #1e1e2e; border-color: #3a3a4e; color: #ccc; }
-body.dark .subnet-table td { color: #ccc; border-bottom-color: #3a3a4e; }
-body.dark .subnet-table td:first-child { color: #aaa; }
-body.dark .cookie-banner { background: #2a2a3e; border-color: #4a9aba; color: #ccc; }
+/* THEMES */
+body.theme-bleu { background: linear-gradient(135deg, #8aaad1 0%, #6d7aaf 100%); }
+body.theme-vert { background: linear-gradient(135deg, #8ad18a 0%, #6daf8a 100%); }
+body.theme-sombre { background: linear-gradient(135deg, #2a1a1a 0%, #1a1a2e 100%); }
+body.theme-sombre .page { background: #1e1e2e; color: #ccc; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
+body.theme-sombre h1, body.theme-sombre h2 { color: #ddd; }
+body.theme-sombre .texte-long { background: #2a2a3e; color: #bbb; border-left-color: #4a9aba; }
+body.theme-sombre .zone-centre, body.theme-sombre .double-content { background: #1a2a3a; border-color: #4a9aba; }
+body.theme-sombre .nav-back a { background: rgba(255,255,255,0.1); color: #aaa; border-color: #555; }
+body.theme-sombre .nav-bouton { background: #2a2a3e; border-color: #4a9aba; }
+body.theme-sombre .nav-menu { background: #2a2a3e; border-color: #4a9aba; }
+body.theme-sombre .nav-menu a { color: #ccc; border-bottom-color: #3a3a4e; }
+body.theme-sombre .nav-menu a:hover { background: #1a2a3a; color: #7bc8e8; }
+body.theme-sombre .zone-attention { background: linear-gradient(90deg, #3a2a00, #2a2000); border-left-color: #cc4400; box-shadow: 0 4px 12px rgba(200,80,0,0.3); }
+body.theme-sombre .zone-attention strong { color: #ff8c5a; }
+body.theme-sombre .table th { background: #1a4a6a; color: #7bc8e8; }
+body.theme-sombre .table th:first-child { box-shadow: inset -3px 0 0 #0d2a3a; }
+body.theme-sombre .table td { color: #ccc; border-bottom-color: #3a3a4e; }
+body.theme-sombre .table td:first-child { border-right-color: #3a3a4e; }
+body.theme-sombre .table tbody tr:nth-child(even) td { background: #1a2a3a; }
+body.theme-sombre .subnet-panel { background: #2a2a3e; border-color: #4a9aba; }
+body.theme-sombre .subnet-panel h3 { background: #1a4a6a; }
+body.theme-sombre .subnet-input-zone input { background: #1e1e2e; border-color: #3a3a4e; color: #ccc; }
+body.theme-sombre .subnet-table td { color: #ccc; border-bottom-color: #3a3a4e; }
+body.theme-sombre .subnet-table td:first-child { color: #aaa; }
+body.theme-sombre .cookie-banner { background: #2a2a3e; border-color: #4a9aba; color: #ccc; }
+body.theme-sombre .theme-menu { background: #2a2a3e; border-color: #4a9aba; }
+body.theme-sombre .theme-option { color: #ccc; border-bottom-color: #3a3a4e; }
+body.theme-sombre .theme-option:hover { background: #1a2a3a; color: #7bc8e8; }

@@ -61,3 +61,22 @@ function acceptCookies() {
   localStorage.setItem('cookies-ok', 'yes');
   document.getElementById('cookie-banner').style.display = 'none';
 }
+
+function changeTheme(theme) {
+  document.body.className = theme;
+  localStorage.setItem('theme', theme);
+}
+
+if (localStorage.getItem('theme')) {
+  document.body.className = localStorage.getItem('theme');
+}
+function toggleThemeMenu() {
+  document.getElementById('theme-menu').classList.toggle('open');
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.nav-droite')) {
+    const menu = document.getElementById('theme-menu');
+    if (menu) menu.classList.remove('open');
+  }
+});
