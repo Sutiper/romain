@@ -7,24 +7,23 @@
 </head>
 <body>
 
-  <div class="nav-subnet">
-  <div class="nav-bouton" onclick="toggleSubnet()">🖩</div>
-  <div id="subnet-panel" class="subnet-panel">
-    <h3>Calculateur IPv4</h3>
-    <div class="subnet-input-zone">
-      <input type="text" id="subnet-input" placeholder="192.168.0.0/24" onkeydown="if(event.key==='Enter') calculateSubnet()">
-      <button onclick="calculateSubnet()">OK</button>
-    </div>
-    <div class="subnet-result" id="subnet-result"></div>
+  <div class="nav-droite">
+    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
   </div>
-</div>
 
-<div class="nav-droite">
-  <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
-</div>
+  <div class="nav-subnet">
+    <div class="nav-bouton" onclick="toggleSubnet()">🖩</div>
+    <div id="subnet-panel" class="subnet-panel">
+      <h3>Calculateur IPv4</h3>
+      <div class="subnet-input-zone">
+        <input type="text" id="subnet-input" placeholder="192.168.0.0/24" onkeydown="if(event.key==='Enter') calculateSubnet()">
+        <button onclick="calculateSubnet()">OK</button>
+      </div>
+      <div class="subnet-result" id="subnet-result"></div>
+    </div>
+  </div>
 
-<script src="pages/subnet.js"></script>
-
+  <script src="pages/subnet.js"></script>
   <script>
     if (localStorage.getItem('dark') === 'on') {
       document.body.classList.add('dark');
@@ -36,7 +35,6 @@
       localStorage.setItem('dark', isDark ? 'on' : 'off');
       document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
     }
-
     async function telechargerRelease() {
       const btn = document.getElementById('dl-btn');
       btn.textContent = '⏳ Chargement...';

@@ -131,7 +131,7 @@ body.dark .table tbody tr:nth-child(even) td { background: #1a2a3a; }
 
 .subnet-panel {
   position: absolute; right: 60px; top: 0;
-  background: white; border: 2px solid #007cba; border-radius: 12px;
+  background: white; border: 2px solid #02192c; border-radius: 12px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.15); width: 340px;
   max-height: 0; overflow: hidden; opacity: 0;
   transition: max-height 0.4s ease, opacity 0.3s ease;
