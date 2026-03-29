@@ -165,3 +165,17 @@ body.dark .subnet-panel h3 { background: #1a4a6a; }
 body.dark .subnet-input-zone input { background: #1e1e2e; border-color: #3a3a4e; color: #ccc; }
 body.dark .subnet-table td { color: #ccc; border-bottom-color: #3a3a4e; }
 body.dark .subnet-table td:first-child { color: #aaa; }
+
+.cookie-banner {
+  position: fixed; bottom: 2%; left: 50%; transform: translateX(-50%);
+  background: white; border: 2px solid #007cba; border-radius: 12px;
+  padding: 2% 3%; box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  z-index: 9999; font-size: 1em; color: #444; text-align: center;
+  max-width: 60%; display: none;
+}
+.cookie-banner button {
+  margin-left: 15px; padding: 8px 20px; background: #007cba; color: white;
+  border: none; border-radius: 8px; cursor: pointer; font-weight: bold;
+}
+.cookie-banner button:hover { background: #005a8e; }
+body.dark .cookie-banner { background: #2a2a3e; border-color: #4a9aba; color: #ccc; }

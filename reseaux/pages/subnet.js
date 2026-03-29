@@ -53,3 +53,11 @@ function calculateSubnet() {
     </table>
   `;
 }
+
+if (!localStorage.getItem('cookies-ok')) {
+  document.getElementById('cookie-banner').style.display = 'block';
+}
+function acceptCookies() {
+  localStorage.setItem('cookies-ok', 'yes');
+  document.getElementById('cookie-banner').style.display = 'none';
+}
