@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>v1.1 - Synthèse Réseaux</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="nav-droite">
+    <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
+    <div id="theme-menu" class="theme-menu">
+      <div class="theme-option" onclick="setTheme('')">🌸 Rose/Violet</div>
+      <div class="theme-option" onclick="setTheme('theme-bleu')">🌊 Bleu</div>
+      <div class="theme-option" onclick="setTheme('theme-vert')">🌿 Vert</div>
+      <div class="theme-option" onclick="setTheme('theme-sombre')">🌙 Sombre</div>
+    </div>
+  </div></div><div class="page">
+    <h1>v1.1</h1>
+    <nav class="nav-back">
+      <a href="../../index.html">← Retour Synthèse</a>
+    </nav>
+    <div class="content-zone">
+
+      <!-- TEXTE PRINCIPAL -->
+      <div class="texte-long">
+        <p>- ajout de quelques details<br>
+        - ajout de configuration dynamique<br>
+        - amelioration de l'usage général<br>
+        - ajout de bouton télécharger<br>
+        - ajout d'une calculatrice<br>
+        - ajout de cookies <br>
+        - ajout de fond <br>
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+function setTheme(theme) {
+  document.body.className = theme;
+  localStorage.setItem('theme', theme);
+  var m = document.getElementById('theme-menu');
+  if (m) m.classList.remove('open');
+}
+function toggleThemeMenu() {
+  var m = document.getElementById('theme-menu');
+  if (m) m.classList.toggle('open');
+}
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-droite')) {
+    var m = document.getElementById('theme-menu');
+    if (m) m.classList.remove('open');
+  }
+});
+window.addEventListener('load', function() {
+  var savedTheme = localStorage.getItem('theme');
+  if (savedTheme !== null) document.body.className = savedTheme;
+});
+  </script>
+</body>
+</html>
