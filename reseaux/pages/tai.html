@@ -6,7 +6,6 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- MENU FLOTTANT -->
   <div class="nav-flottant">
 
     <div class="nav-item">
@@ -29,9 +28,7 @@
       </div>
     </div>
 
-    </div>
-
-    <script src="pages/subnet.js"></script>
+  </div>
 
   <div class="nav-droite">
     <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
@@ -56,34 +53,6 @@
   </div>
 
   <script src="subnet.js"></script>
-  <script>
-    if (localStorage.getItem('dark') === 'on') {
-      document.body.classList.add('dark');
-      document.getElementById('theme-btn').textContent = '☀️';
-    }
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      localStorage.setItem('dark', isDark ? 'on' : 'off');
-      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
-    }
-    async function telechargerRelease() {
-      const btn = document.getElementById('dl-btn');
-      btn.textContent = '⏳ Chargement...';
-      try {
-        const res = await fetch('https://api.github.com/repos/Sutiper/romain/releases/latest');
-        const data = await res.json();
-        if (data.assets && data.assets.length > 0) {
-          window.location.href = data.assets[0].browser_download_url;
-          btn.textContent = '⬇️ TÉLÉCHARGER LA DERNIÈRE RELEASE';
-        } else {
-          btn.textContent = '❌ Aucun fichier disponible';
-        }
-      } catch (e) {
-        btn.textContent = '❌ Erreur de connexion';
-      }
-    }
-  </script>
 
   <div class="page">
     <h1>Translation dadresses ip</h1>
@@ -93,21 +62,18 @@
     </nav>
     
     <div class="content-zone">
-      <!-- ICI : tes éléments préfabriqués -->
       
-      <!-- TEXTE PRINCIPAL -->
       <div class="texte-long">
-        <p>Cette page présente la translation d’adresses IP (NAT) et permet d’accéder aux différentes 
-          configurations comme le NAT statique, la redirection de port, le PAT et l’utilisation d’un pool d’adresses.</p>
+        <p>Cette page présente la translation d'adresses IP (NAT) et permet d'accéder aux différentes 
+          configurations comme le NAT statique, la redirection de port, le PAT et l'utilisation d'un pool d'adresses.</p>
       </div>
 
-      <!-- ZONE ATTENTION -->
       <div class="zone-attention">
         <strong>⚠️ ATTENTION :</strong> Il faut également préciser les interfaces ip 
         nat inside et ip nat outside, et penser à les appliquer sur les sous-interfaces 
-        si nécessaire, afin d’indiquer au routeur quelle interface correspond au réseau 
+        si nécessaire, afin d'indiquer au routeur quelle interface correspond au réseau 
         interne (inside) et laquelle au réseau externe (outside) pour que la translation 
-        d’adresses fonctionne correctement.
+        d'adresses fonctionne correctement.
       </div>
 
       <div class="row" id="1">
