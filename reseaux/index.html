@@ -8,14 +8,14 @@
 <body>
 
   <div class="nav-droite">
-  <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
-  <div id="theme-menu" class="theme-menu">
-    <div class="theme-option" onclick="setTheme('')">🌸 Rose/Violet</div>
-    <div class="theme-option" onclick="setTheme('theme-bleu')">🌊 Bleu</div>
-    <div class="theme-option" onclick="setTheme('theme-vert')">🌿 Vert</div>
-    <div class="theme-option" onclick="setTheme('theme-sombre')">🌙 Sombre</div>
+    <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
+    <div id="theme-menu" class="theme-menu">
+      <div class="theme-option" onclick="setTheme('')">🌸 Rose/Violet</div>
+      <div class="theme-option" onclick="setTheme('theme-bleu')">🌊 Bleu</div>
+      <div class="theme-option" onclick="setTheme('theme-vert')">🌿 Vert</div>
+      <div class="theme-option" onclick="setTheme('theme-sombre')">🌙 Sombre</div>
+    </div>
   </div>
-</div>
 
   <div class="nav-subnet">
     <div class="nav-bouton" onclick="toggleSubnet()">🖩</div>
@@ -31,16 +31,6 @@
 
   <script src="pages/subnet.js"></script>
   <script>
-    if (localStorage.getItem('dark') === 'on') {
-      document.body.classList.add('dark');
-      document.getElementById('theme-btn').textContent = '☀️';
-    }
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      localStorage.setItem('dark', isDark ? 'on' : 'off');
-      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
-    }
     async function telechargerRelease() {
       const btn = document.getElementById('dl-btn');
       btn.textContent = '⏳ Chargement...';
@@ -91,8 +81,9 @@
   </div>
 
   <div id="cookie-banner" class="cookie-banner">
-  🍪 Ce site utilise des cookies pour mémoriser vos préférences (thème sombre).
-  <button onclick="acceptCookies()">J'accepte</button>
-</div>
+    🍪 Ce site utilise des cookies pour mémoriser vos préférences (thème).
+    <button onclick="acceptCookies()">J'accepte</button>
+  </div>
+
 </body>
 </html>

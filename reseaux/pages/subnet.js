@@ -35,7 +35,6 @@ function calculateSubnet() {
   const intToBin = n => [(n >>> 24) & 255, (n >>> 16) & 255, (n >>> 8) & 255, n & 255]
     .map(b => b.toString(2).padStart(8, '0')).join('.');
 
-  const maskParts = intToIp(maskBits).split('.').map(Number);
   const ipClass = parts[0] < 128 ? 'A' : parts[0] < 192 ? 'B' : parts[0] < 224 ? 'C' : parts[0] < 240 ? 'D' : 'E';
 
   result.innerHTML = `
@@ -62,14 +61,16 @@ function acceptCookies() {
   document.getElementById('cookie-banner').style.display = 'none';
 }
 
-function changeTheme(theme) {
+function setTheme(theme) {
   document.body.className = theme;
   localStorage.setItem('theme', theme);
+  document.getElementById('theme-menu').classList.remove('open');
 }
 
 if (localStorage.getItem('theme')) {
   document.body.className = localStorage.getItem('theme');
 }
+
 function toggleThemeMenu() {
   document.getElementById('theme-menu').classList.toggle('open');
 }
