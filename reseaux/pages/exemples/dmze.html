@@ -51,7 +51,67 @@
         <a href="dmz.html">DMZ</a>
       </div>
     </div>
+<<<<<<< HEAD
   </div><div class="page">
+=======
+  </div>
+
+  <script src="pages/subnet.js"></script>
+
+  <div class="nav-droite">
+    <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
+    <div id="theme-menu" class="theme-menu">
+      <div class="theme-option" onclick="setTheme('')">🌸 Rose/Violet</div>
+      <div class="theme-option" onclick="setTheme('theme-bleu')">🌊 Bleu</div>
+      <div class="theme-option" onclick="setTheme('theme-vert')">🌿 Vert</div>
+      <div class="theme-option" onclick="setTheme('theme-sombre')">🌙 Sombre</div>
+    </div>
+  </div>
+
+  <div class="nav-subnet">
+    <div class="nav-bouton" onclick="toggleSubnet()">🖩</div>
+    <div id="subnet-panel" class="subnet-panel">
+      <h3>Calculateur IPv4</h3>
+      <div class="subnet-input-zone">
+        <input type="text" id="subnet-input" placeholder="192.168.0.0/24" onkeydown="if(event.key==='Enter') calculateSubnet()">
+        <button onclick="calculateSubnet()">OK</button>
+      </div>
+      <div class="subnet-result" id="subnet-result"></div>
+    </div>
+  </div>
+
+  <script src="subnet.js"></script>
+  <script>
+    if (localStorage.getItem('dark') === 'on') {
+      document.body.classList.add('dark');
+      document.getElementById('theme-btn').textContent = '☀️';
+    }
+    function toggleTheme() {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      localStorage.setItem('dark', isDark ? 'on' : 'off');
+      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+    }
+    async function telechargerRelease() {
+      const btn = document.getElementById('dl-btn');
+      btn.textContent = '⏳ Chargement...';
+      try {
+        const res = await fetch('https://api.github.com/repos/Sutiper/romain/releases/latest');
+        const data = await res.json();
+        if (data.assets && data.assets.length > 0) {
+          window.location.href = data.assets[0].browser_download_url;
+          btn.textContent = '⬇️ TÉLÉCHARGER LA DERNIÈRE RELEASE';
+        } else {
+          btn.textContent = '❌ Aucun fichier disponible';
+        }
+      } catch (e) {
+        btn.textContent = '❌ Erreur de connexion';
+      }
+    }
+  </script>
+
+  <div class="page">
+>>>>>>> 4b8037dab84b2c3baf904be212107c293882c5df
     <h1>DMZ exemple</h1>
     <nav class="nav-back">
       <a href="../../index.html">← Retour Synthèse</a>

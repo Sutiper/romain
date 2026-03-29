@@ -55,6 +55,33 @@
     </div>
   </div>
 
+<<<<<<< HEAD
+=======
+  <div class="nav-droite">
+    <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
+    <div id="theme-menu" class="theme-menu">
+      <div class="theme-option" onclick="setTheme('')">🌸 Rose/Violet</div>
+      <div class="theme-option" onclick="setTheme('theme-bleu')">🌊 Bleu</div>
+      <div class="theme-option" onclick="setTheme('theme-vert')">🌿 Vert</div>
+      <div class="theme-option" onclick="setTheme('theme-sombre')">🌙 Sombre</div>
+    </div>
+  </div>
+
+  <div class="nav-subnet">
+    <div class="nav-bouton" onclick="toggleSubnet()">📟</div>
+    <div id="subnet-panel" class="subnet-panel">
+      <h3>Calculateur IPv4</h3>
+      <div class="subnet-input-zone">
+        <input type="text" id="subnet-input" placeholder="192.168.0.0/24" onkeydown="if(event.key==='Enter') calculateSubnet()">
+        <button onclick="calculateSubnet()">OK</button>
+      </div>
+      <div class="subnet-result" id="subnet-result"></div>
+    </div>
+  </div>
+
+  <script src="subnet.js"></script>
+
+>>>>>>> 4b8037dab84b2c3baf904be212107c293882c5df
   <div class="page">
     <h1>Configuration de ACL</h1>
     <nav class="nav-back">
