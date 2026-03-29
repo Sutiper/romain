@@ -7,9 +7,23 @@
 </head>
 <body>
 
-  <div class="nav-droite">
-    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
+  <div class="nav-subnet">
+  <div id="subnet-panel" class="subnet-panel">
+    <h3>Calculateur IPv4</h3>
+    <div class="subnet-input-zone">
+      <input type="text" id="subnet-input" placeholder="192.168.0.0/24" onkeydown="if(event.key==='Enter') calculateSubnet()">
+      <button onclick="calculateSubnet()">OK</button>
+    </div>
+    <div class="subnet-result" id="subnet-result"></div>
   </div>
+  <div class="nav-bouton" onclick="toggleSubnet()">🖩</div>
+</div>
+
+<div class="nav-droite">
+  <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
+</div>
+
+<script src="pages/subnet.js"></script>
 
   <script>
     if (localStorage.getItem('dark') === 'on') {

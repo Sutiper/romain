@@ -123,3 +123,43 @@ body.dark .table th:first-child { box-shadow: inset -3px 0 0 #0d2a3a; }
 body.dark .table td { color: #ccc; border-bottom-color: #3a3a4e; }
 body.dark .table td:first-child { border-right-color: #3a3a4e; }
 body.dark .table tbody tr:nth-child(even) td { background: #1a2a3a; }
+
+
+/* SUBNET CALCULATOR */
+.nav-subnet { position: fixed; top: 5%; right: 70px; z-index: 1000; display: flex; align-items: flex-start; gap: 10px; }
+
+.subnet-panel {
+  background: white; border: 2px solid #007cba; border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15); width: 340px;
+  max-height: 0; overflow: hidden; opacity: 0;
+  transition: max-height 0.4s ease, opacity 0.3s ease;
+}
+.subnet-panel.open { max-height: 600px; opacity: 1; }
+
+.subnet-panel h3 { background: #007cba; color: white; padding: 3% 5%; font-size: 1em; border-radius: 10px 10px 0 0; }
+
+.subnet-input-zone { padding: 4% 5%; display: flex; gap: 8px; }
+.subnet-input-zone input {
+  flex: 1; padding: 8px 12px; border: 2px solid #ddd; border-radius: 8px;
+  font-size: 0.95em; outline: none;
+}
+.subnet-input-zone input:focus { border-color: #007cba; }
+.subnet-input-zone button {
+  padding: 8px 14px; background: #007cba; color: white; border: none;
+  border-radius: 8px; cursor: pointer; font-weight: bold; transition: background 0.2s;
+}
+.subnet-input-zone button:hover { background: #005a8e; }
+
+.subnet-result { padding: 0 5% 4%; }
+.subnet-table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+.subnet-table td { padding: 5px 8px; border-bottom: 1px solid #eee; color: #444; }
+.subnet-table td:first-child { color: #666; width: 55%; }
+.subnet-table tr:last-child td { border-bottom: none; }
+.mono { font-family: monospace; font-size: 0.8em; word-break: break-all; }
+
+/* DARK MODE SUBNET */
+body.dark .subnet-panel { background: #2a2a3e; border-color: #4a9aba; }
+body.dark .subnet-panel h3 { background: #1a4a6a; }
+body.dark .subnet-input-zone input { background: #1e1e2e; border-color: #3a3a4e; color: #ccc; }
+body.dark .subnet-table td { color: #ccc; border-bottom-color: #3a3a4e; }
+body.dark .subnet-table td:first-child { color: #aaa; }
