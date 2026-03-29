@@ -6,6 +6,31 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="nav-droite">
+    <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
+    <div id="theme-menu" class="theme-menu">
+      <div class="theme-option" onclick="setTheme('')">🌸 Rose/Violet</div>
+      <div class="theme-option" onclick="setTheme('theme-bleu')">🌊 Bleu</div>
+      <div class="theme-option" onclick="setTheme('theme-vert')">🌿 Vert</div>
+      <div class="theme-option" onclick="setTheme('theme-sombre')">🌙 Sombre</div>
+    </div>
+  </div>
+  <div class="nav-subnet">
+    <div class="nav-bouton" onclick="toggleSubnet()">📟</div>
+    <div id="subnet-panel" class="subnet-panel">
+      <h3>Calculateur IPv4</h3>
+      <div class="subnet-input-zone">
+        <input type="text" id="subnet-input" placeholder="192.168.0.0/24" onkeydown="if(event.key==='Enter') calculateSubnet()">
+        <button onclick="calculateSubnet()">OK</button>
+      </div>
+      <div class="subnet-result" id="subnet-result"></div>
+    </div>
+  </div>
+
+  <div id="cookie-banner" class="cookie-banner">
+    🍪 Ce site utilise des cookies pour mémoriser vos préférences (thème).
+    <button onclick="acceptCookies()">J'accepte</button>
+  </div>
 
   <div class="nav-flottant">
     <div class="nav-item">
@@ -28,23 +53,6 @@
     </div>
   </div>
 
-  <div class="nav-droite">
-    <div class="nav-bouton" id="theme-btn" onclick="toggleTheme()">🌙</div>
-  </div>
-
-  <script>
-    if (localStorage.getItem('dark') === 'on') {
-      document.body.classList.add('dark');
-      document.getElementById('theme-btn').textContent = '☀️';
-    }
-    function toggleTheme() {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      localStorage.setItem('dark', isDark ? 'on' : 'off');
-      document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
-    }
-  </script>
-
   <div class="page">
     <h1>configuration dynamique</h1>
     <nav class="nav-back">
@@ -60,5 +68,87 @@
     </div>
   </div>
 
+  <script>
+function toggleSubnet() {
+  var panel = document.getElementById('subnet-panel');
+  panel.classList.toggle('open');
+}
+
+function calculateSubnet() {
+  var input = document.getElementById('subnet-input').value.trim();
+  var result = document.getElementById('subnet-result');
+  if (!input.includes('/')) {
+    result.innerHTML = '<p style="color:red">Format invalide. Exemple : 192.168.0.0/24</p>';
+    return;
+  }
+  var parts_cidr = input.split('/');
+  var ip = parts_cidr[0];
+  var cidr = parseInt(parts_cidr[1]);
+  var parts = ip.split('.').map(Number);
+  if (parts.length !== 4 || parts.some(function(p){ return isNaN(p)||p<0||p>255; }) || isNaN(cidr)||cidr<0||cidr>32) {
+    result.innerHTML = '<p style="color:red">Adresse IP invalide.</p>';
+    return;
+  }
+  var maskBits = cidr === 0 ? 0 : ((~0 << (32 - cidr)) >>> 0);
+  var ipInt = ((parts[0]<<24)|(parts[1]<<16)|(parts[2]<<8)|parts[3]) >>> 0;
+  var networkInt = (ipInt & maskBits) >>> 0;
+  var broadcastInt = (networkInt | (~maskBits >>> 0)) >>> 0;
+  var firstInt = cidr === 32 ? networkInt : networkInt + 1;
+  var lastInt  = cidr === 32 ? broadcastInt : broadcastInt - 1;
+  var size = Math.pow(2, 32 - cidr);
+  function intToIp(n){ return [(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].join('.'); }
+  function intToBin(n){ return [(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].map(function(b){ return b.toString(2).padStart(8,'0'); }).join('.'); }
+  var ipClass = parts[0]<128?'A':parts[0]<192?'B':parts[0]<224?'C':parts[0]<240?'D':'E';
+  result.innerHTML =
+    '<table class="subnet-table">' +
+    '<tr><td>Adresse r\u00e9seau</td><td>'+intToIp(networkInt)+'</td></tr>' +
+    '<tr><td>Masque r\u00e9seau</td><td>'+intToIp(maskBits)+'</td></tr>' +
+    '<tr><td>Masque binaire</td><td class="mono">'+intToBin(maskBits)+'</td></tr>' +
+    '<tr><td>Notation CIDR</td><td>/'+cidr+'</td></tr>' +
+    '<tr><td>Masque wildcard</td><td>'+intToIp(~maskBits>>>0)+'</td></tr>' +
+    '<tr><td>Taille r\u00e9seau</td><td>'+size+'</td></tr>' +
+    '<tr><td>Premi\u00e8re adresse</td><td>'+intToIp(firstInt)+'</td></tr>' +
+    '<tr><td>Derni\u00e8re adresse</td><td>'+intToIp(lastInt)+'</td></tr>' +
+    '<tr><td>Adresse broadcast</td><td>'+intToIp(broadcastInt)+'</td></tr>' +
+    '<tr><td>Classe IP</td><td>'+ipClass+'</td></tr>' +
+    '</table>';
+}
+
+function acceptCookies() {
+  localStorage.setItem('cookies-ok', 'yes');
+  var b = document.getElementById('cookie-banner');
+  if (b) b.style.display = 'none';
+}
+
+function setTheme(theme) {
+  document.body.className = theme;
+  localStorage.setItem('theme', theme);
+  var m = document.getElementById('theme-menu');
+  if (m) m.classList.remove('open');
+}
+
+function toggleThemeMenu() {
+  var m = document.getElementById('theme-menu');
+  if (m) m.classList.toggle('open');
+}
+
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('.nav-droite')) {
+    var m = document.getElementById('theme-menu');
+    if (m) m.classList.remove('open');
+  }
+});
+
+window.addEventListener('load', function() {
+  var banner = document.getElementById('cookie-banner');
+  if (banner && !localStorage.getItem('cookies-ok')) {
+    banner.style.display = 'block';
+  }
+  var savedTheme = localStorage.getItem('theme');
+  if (savedTheme !== null) {
+    document.body.className = savedTheme;
+  }
+});
+  </script>
 </body>
 </html>
