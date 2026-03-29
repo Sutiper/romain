@@ -36,6 +36,23 @@
       localStorage.setItem('dark', isDark ? 'on' : 'off');
       document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
     }
+
+    async function telechargerRelease() {
+      const btn = document.getElementById('dl-btn');
+      btn.textContent = '⏳ Chargement...';
+      try {
+        const res = await fetch('https://api.github.com/repos/Sutiper/romain/releases/latest');
+        const data = await res.json();
+        if (data.assets && data.assets.length > 0) {
+          window.location.href = data.assets[0].browser_download_url;
+          btn.textContent = '⬇️ TÉLÉCHARGER LA DERNIÈRE RELEASE';
+        } else {
+          btn.textContent = '❌ Aucun fichier disponible';
+        }
+      } catch (e) {
+        btn.textContent = '❌ Erreur de connexion';
+      }
+    }
   </script>
 
   <div class="page">
@@ -63,6 +80,9 @@
       <a href="pages/modele.html" class="bouton">MODELE PAGE</a>
       <a href="pages/prefabriquee.html" class="bouton">MP</a>
       <a href="pages/maj.html" class="bouton">MISE A JOUR</a>
+    </div>
+    <div class="row">
+      <button id="dl-btn" class="bouton" onclick="telechargerRelease()">⬇️ TÉLÉCHARGER LA DERNIÈRE RELEASE</button>
     </div>
   </div>
 
