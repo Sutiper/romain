@@ -53,10 +53,6 @@ function calculateSubnet() {
   `;
 }
 
-if (!localStorage.getItem('cookies-ok')) {
-  document.getElementById('cookie-banner').style.display = 'block';
-}
-
 function acceptCookies() {
   localStorage.setItem('cookies-ok', 'yes');
   document.getElementById('cookie-banner').style.display = 'none';
@@ -68,11 +64,6 @@ function setTheme(theme) {
   document.getElementById('theme-menu').classList.remove('open');
 }
 
-const savedTheme = localStorage.getItem('theme');
-if (savedTheme !== null) {
-  document.body.className = savedTheme;
-}
-
 function toggleThemeMenu() {
   document.getElementById('theme-menu').classList.toggle('open');
 }
@@ -81,5 +72,15 @@ document.addEventListener('click', e => {
   if (!e.target.closest('.nav-droite')) {
     const menu = document.getElementById('theme-menu');
     if (menu) menu.classList.remove('open');
+  }
+});
+
+window.addEventListener('load', () => {
+  if (!localStorage.getItem('cookies-ok')) {
+    document.getElementById('cookie-banner').style.display = 'block';
+  }
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme !== null) {
+    document.body.className = savedTheme;
   }
 });
