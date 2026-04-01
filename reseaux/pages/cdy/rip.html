@@ -92,10 +92,50 @@
     </nav>
     <div class="content-zone">
 
-      <!-- Ex: <div class="zone-centre">Texte centré</div> -->
-      <!-- Ex: <div class="texte-long">Texte long</div> -->
-      <!-- Ex: <h2>Titre</h2><table class="table">...</table> -->
-      <!-- Ex: <div class="zone-attention">Attention !</div> -->
+      <div class="texte-long">
+  <p>
+    Cette page présente une synthèse des principales commandes de configuration de base sur les équipements réseau Cisco (switch et routeur), 
+    incluant la modification du hostname, la configuration des mots de passe, la sauvegarde et la réinitialisation de la configuration, 
+    la création et l'attribution de VLAN, la configuration des adresses IP, la mise en place d'un trunk, 
+    l'utilisation des sous-interfaces pour le routage inter-VLAN, la gestion du protocole STP ainsi que l'activation d'un accès distant via Telnet.
+  </p>
+</div>
+
+<h2 id="hostname">Modification du hostname (switch/router)</h2>
+<div class="zone-centre">
+  <p>(config)#hostname <u>'nom'</u></p>
+</div>
+
+<h2 id="enable-password">Mot de Passe Enable (switch/router)</h2>
+<div class="zone-centre">
+  <p>(config)#enable password <u>'mot de passe'</u></p>
+</div>
+
+<h2 id="enable-secret">Mot de Passe Enable sécurisé (switch/router)</h2>
+<div class="zone-centre">
+  <p>(config)#enable secret <u>'mot de passe'</u></p>
+</div>
+
+<h2 id="console">Mot de Passe de Console (switch/router)</h2>
+<div class="zone-centre">
+  <p>
+    (config)#line console 0<br>
+    (config-line)#password <u>'mot de passe'</u><br>
+    (config-line)#login
+  </p>
+</div>
+
+<h2 id="vlan">Mise en place d'un VLAN (switch)</h2>
+<div class="zone-centre">
+  <p>
+    (config)#vlan <u>'num du vlan'</u><br>
+    (config-vlan)#name <u>'nom du vlan'</u><br>
+    (config-vlan)#exit<br>
+    (config)#interface fastethernet <u>'num port'</u><br>
+    (config-if)#switchport mode access<br>
+    (config-if)#switchport access vlan <u>'num du vlan'</u>
+  </p>
+</div>
 
     </div>
   </div>
