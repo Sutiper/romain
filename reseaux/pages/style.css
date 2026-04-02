@@ -2,7 +2,7 @@
 html { scroll-behavior: smooth; }
 
 /* ===================== THEMES / COULEURS ===================== */
-body {
+body { 
   --accent: #4a90e2;
   --accent-dark: #357ab7;
   --accent-light: #dcefff; /* zones centrées et doubles colonnes */
