@@ -6,30 +6,15 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
+
   <div class="nav-droite">
     <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
     <div id="theme-menu" class="theme-menu">
-      <div class="theme-option" onclick="setTheme('')">🌸 Rose/Violet</div>
-      <div class="theme-option" onclick="setTheme('theme-bleu')">🌊 Bleu</div>
-      <div class="theme-option" onclick="setTheme('theme-vert')">🌿 Vert</div>
-      <div class="theme-option" onclick="setTheme('theme-sombre')">🌙 Sombre</div>
+      <div class="theme-option" onclick="setTheme('')">base</div>
+      <div class="theme-option" onclick="setTheme('theme-bleu')">sobre et élégant</div>
+      <div class="theme-option" onclick="setTheme('theme-vert')">Vert</div>
+      <div class="theme-option" onclick="setTheme('theme-sombre')">Sombre</div>
     </div>
-  </div>
-  <div class="nav-subnet">
-    <div class="nav-bouton" onclick="toggleSubnet()">📟</div>
-    <div id="subnet-panel" class="subnet-panel">
-      <h3>Calculateur IPv4</h3>
-      <div class="subnet-input-zone">
-        <input type="text" id="subnet-input" placeholder="192.168.0.0/24" onkeydown="if(event.key==='Enter') calculateSubnet()">
-        <button onclick="calculateSubnet()">OK</button>
-      </div>
-      <div class="subnet-result" id="subnet-result"></div>
-    </div>
-  </div>
-
-  <div id="cookie-banner" class="cookie-banner">
-    🍪 Ce site utilise des cookies pour mémoriser vos préférences (thème).
-    <button onclick="acceptCookies()">J'accepte</button>
   </div>
 
   <div class="nav-flottant">
@@ -53,7 +38,43 @@
         <a href="../dmz.html">DMZ</a>
       </div>
     </div>
-  </div><div class="page">
+  </div>
+
+  <script src="../subnet.js"></script>
+
+  <div class="nav-subnet">
+    <div class="nav-bouton" onclick="toggleSubnet()">📟</div>
+    <div id="subnet-panel" class="subnet-panel">
+      <h3>Calculateur IPv4</h3>
+      <div class="subnet-input-zone">
+        <input type="text" id="subnet-input" placeholder="192.168.0.0/24" onkeydown="if(event.key==='Enter') calculateSubnet()">
+        <button onclick="calculateSubnet()">OK</button>
+      </div>
+      <div class="subnet-result" id="subnet-result"></div>
+    </div>
+  </div>
+
+  <script src="subnet.js"></script>
+  <script>
+    async function telechargerRelease() {
+      const btn = document.getElementById('dl-btn');
+      btn.textContent = '⏳ Chargement...';
+      try {
+        const res = await fetch('https://api.github.com/repos/Sutiper/romain/releases/latest');
+        const data = await res.json();
+        if (data.assets && data.assets.length > 0) {
+          window.location.href = data.assets[0].browser_download_url;
+          btn.textContent = '⬇️ TÉLÉCHARGER LA DERNIÈRE RELEASE';
+        } else {
+          btn.textContent = '❌ Aucun fichier disponible';
+        }
+      } catch (e) {
+        btn.textContent = '❌ Erreur de connexion';
+      }
+    }
+  </script>
+
+  <div class="page">
     <h1>rip</h1>
     <nav class="nav-back">
       <a href="../../index.html">← Retour Synthèse</a>
@@ -61,135 +82,45 @@
     </nav>
     <div class="content-zone">
 
+      <!-- TEXTE PRINCIPAL -->
       <div class="texte-long">
-  <p>
-    Cette page présente une synthèse des principales commandes de configuration de base sur les équipements réseau Cisco (switch et routeur), 
-    incluant la modification du hostname, la configuration des mots de passe, la sauvegarde et la réinitialisation de la configuration, 
-    la création et l'attribution de VLAN, la configuration des adresses IP, la mise en place d'un trunk, 
-    l'utilisation des sous-interfaces pour le routage inter-VLAN, la gestion du protocole STP ainsi que l'activation d'un accès distant via Telnet.
-  </p>
-</div>
+        <p>RIP (Routing Information Protocol) est un protocole de routage dynamique qui 
+          permet aux routeurs d’échanger automatiquement des routes et de choisir le chemin 
+          le plus court en fonction du nombre de sauts entre les réseaux.</p>
+      </div>
 
-<h2 id="hostname">Modification du hostname (switch/router)</h2>
-<div class="zone-centre">
-  <p>(config)#hostname <u>'nom'</u></p>
-</div>
+      <!-- ZONE TEXTE VERTICAL CENTRÉ -->
+      <h2>configuration(routeur)</h2>
+      <div class="zone-centre">
+        <p>
+        (config)#router rip<br>
+        (config-router)#version 2 <u>(obligatoire)</u><br>
+        (config-router)#no auto-summary<u></u>(obligatoire)</u><br>
+        (config-router)#network <u>ip réseaux qu'il connais</u><br>
+        (config-router)#passive-interface <u>interface a retirer du trafic</u><br>
+        </p>
+      </div>
 
-<h2 id="enable-password">Mot de Passe Enable (switch/router)</h2>
-<div class="zone-centre">
-  <p>(config)#enable password <u>'mot de passe'</u></p>
-</div>
+      <!-- ZONE ATTENTION -->
+      <div class="zone-attention">
+        <strong>⚠️ ATTENTION :</strong> pour passer un switch sans faire chier ses ordinateur faire un vlan pour les routeurs et mettre en passif la sous interface des ordinateurs.
+      </div>
 
-<h2 id="enable-secret">Mot de Passe Enable sécurisé (switch/router)</h2>
-<div class="zone-centre">
-  <p>(config)#enable secret <u>'mot de passe'</u></p>
-</div>
+      <!-- ZONE TEXTE VERTICAL CENTRÉ -->
+      <h2>route de secours(routeur)</h2>
+      <div class="zone-centre">
+        <p>
+        (config)#ip route <u>le réseau de destination</u> <u>masque</u> <u>ip du next-hop</u> <u>distance administrative</u><br>
+        </p>
+      </div>
 
-<h2 id="console">Mot de Passe de Console (switch/router)</h2>
-<div class="zone-centre">
-  <p>
-    (config)#line console 0<br>
-    (config-line)#password <u>'mot de passe'</u><br>
-    (config-line)#login
-  </p>
-</div>
-
-<h2 id="vlan">Mise en place d'un VLAN (switch)</h2>
-<div class="zone-centre">
-  <p>
-    (config)#vlan <u>'num du vlan'</u><br>
-    (config-vlan)#name <u>'nom du vlan'</u><br>
-    (config-vlan)#exit<br>
-    (config)#interface fastethernet <u>'num port'</u><br>
-    (config-if)#switchport mode access<br>
-    (config-if)#switchport access vlan <u>'num du vlan'</u>
-  </p>
-</div>
+      <!-- ZONE ATTENTION -->
+      <div class="zone-attention">
+        <strong>⚠️ ATTENTION :</strong>la distance administratif doit être supérieur a RIP (120)
+      </div>
 
     </div>
   </div>
 
-  <script>
-function toggleSubnet() {
-  var panel = document.getElementById('subnet-panel');
-  panel.classList.toggle('open');
-}
-
-function calculateSubnet() {
-  var input = document.getElementById('subnet-input').value.trim();
-  var result = document.getElementById('subnet-result');
-  if (!input.includes('/')) {
-    result.innerHTML = '<p style="color:red">Format invalide. Exemple : 192.168.0.0/24</p>';
-    return;
-  }
-  var parts_cidr = input.split('/');
-  var ip = parts_cidr[0];
-  var cidr = parseInt(parts_cidr[1]);
-  var parts = ip.split('.').map(Number);
-  if (parts.length !== 4 || parts.some(function(p){ return isNaN(p)||p<0||p>255; }) || isNaN(cidr)||cidr<0||cidr>32) {
-    result.innerHTML = '<p style="color:red">Adresse IP invalide.</p>';
-    return;
-  }
-  var maskBits = cidr === 0 ? 0 : ((~0 << (32 - cidr)) >>> 0);
-  var ipInt = ((parts[0]<<24)|(parts[1]<<16)|(parts[2]<<8)|parts[3]) >>> 0;
-  var networkInt = (ipInt & maskBits) >>> 0;
-  var broadcastInt = (networkInt | (~maskBits >>> 0)) >>> 0;
-  var firstInt = cidr === 32 ? networkInt : networkInt + 1;
-  var lastInt  = cidr === 32 ? broadcastInt : broadcastInt - 1;
-  var size = Math.pow(2, 32 - cidr);
-  function intToIp(n){ return [(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].join('.'); }
-  function intToBin(n){ return [(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].map(function(b){ return b.toString(2).padStart(8,'0'); }).join('.'); }
-  var ipClass = parts[0]<128?'A':parts[0]<192?'B':parts[0]<224?'C':parts[0]<240?'D':'E';
-  result.innerHTML =
-    '<table class="subnet-table">' +
-    '<tr><td>Adresse r\u00e9seau</td><td>'+intToIp(networkInt)+'</td></tr>' +
-    '<tr><td>Masque r\u00e9seau</td><td>'+intToIp(maskBits)+'</td></tr>' +
-    '<tr><td>Masque binaire</td><td class="mono">'+intToBin(maskBits)+'</td></tr>' +
-    '<tr><td>Notation CIDR</td><td>/'+cidr+'</td></tr>' +
-    '<tr><td>Masque wildcard</td><td>'+intToIp(~maskBits>>>0)+'</td></tr>' +
-    '<tr><td>Taille r\u00e9seau</td><td>'+size+'</td></tr>' +
-    '<tr><td>Premi\u00e8re adresse</td><td>'+intToIp(firstInt)+'</td></tr>' +
-    '<tr><td>Derni\u00e8re adresse</td><td>'+intToIp(lastInt)+'</td></tr>' +
-    '<tr><td>Adresse broadcast</td><td>'+intToIp(broadcastInt)+'</td></tr>' +
-    '<tr><td>Classe IP</td><td>'+ipClass+'</td></tr>' +
-    '</table>';
-}
-
-function acceptCookies() {
-  localStorage.setItem('cookies-ok', 'yes');
-  var b = document.getElementById('cookie-banner');
-  if (b) b.style.display = 'none';
-}
-
-function setTheme(theme) {
-  document.body.className = theme;
-  localStorage.setItem('theme', theme);
-  var m = document.getElementById('theme-menu');
-  if (m) m.classList.remove('open');
-}
-
-function toggleThemeMenu() {
-  var m = document.getElementById('theme-menu');
-  if (m) m.classList.toggle('open');
-}
-
-document.addEventListener('click', function(e) {
-  if (!e.target.closest('.nav-droite')) {
-    var m = document.getElementById('theme-menu');
-    if (m) m.classList.remove('open');
-  }
-});
-
-window.addEventListener('load', function() {
-  var banner = document.getElementById('cookie-banner');
-  if (banner && !localStorage.getItem('cookies-ok')) {
-    banner.style.display = 'block';
-  }
-  var savedTheme = localStorage.getItem('theme');
-  if (savedTheme !== null) {
-    document.body.className = savedTheme;
-  }
-});
-  </script>
 </body>
 </html>

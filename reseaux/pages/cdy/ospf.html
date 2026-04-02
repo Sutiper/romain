@@ -6,15 +6,17 @@
   <link rel="stylesheet" href="../style.css">
 </head>
 <body>
+
   <div class="nav-droite">
     <div class="nav-bouton" onclick="toggleThemeMenu()">🎨</div>
     <div id="theme-menu" class="theme-menu">
-      <div class="theme-option" onclick="setTheme('')">🌸 Rose/Violet</div>
-      <div class="theme-option" onclick="setTheme('theme-bleu')">🌊 Bleu</div>
-      <div class="theme-option" onclick="setTheme('theme-vert')">🌿 Vert</div>
-      <div class="theme-option" onclick="setTheme('theme-sombre')">🌙 Sombre</div>
+      <div class="theme-option" onclick="setTheme('')">base</div>
+      <div class="theme-option" onclick="setTheme('theme-bleu')">sobre et élégant</div>
+      <div class="theme-option" onclick="setTheme('theme-vert')">Vert</div>
+      <div class="theme-option" onclick="setTheme('theme-sombre')">Sombre</div>
     </div>
   </div>
+  
   <div class="nav-subnet">
     <div class="nav-bouton" onclick="toggleSubnet()">📟</div>
     <div id="subnet-panel" class="subnet-panel">
@@ -61,10 +63,41 @@
     </nav>
     <div class="content-zone">
 
-      <!-- Ex: <div class="zone-centre">Texte centré</div> -->
-      <!-- Ex: <div class="texte-long">Texte long</div> -->
-      <!-- Ex: <h2>Titre</h2><table class="table">...</table> -->
-      <!-- Ex: <div class="zone-attention">Attention !</div> -->
+      <div class="texte-long">
+      <p>OSPF (Open Shortest Path First) est un protocole de routage dynamique à état de liens. 
+      Il calcule le meilleur chemin en fonction du coût (basé sur la bande passante) et construit 
+      une topologie complète du réseau. Il est plus rapide et plus fiable que RIP.</p>
+      </div>
+
+      <h2>configuration(routeur)</h2>
+      <div class="zone-centre">
+      <p>
+      (config)#router ospf <u>process-id</u><br>
+      (config-router)#router-id <u>id unique (ex: 1.1.1.1)</u><br>
+      (config-router)#network <u>ip réseau</u> <u>wildcard mask</u> area <u>0</u><br>
+      (config-router)#passive-interface <u>interface a retirer du trafic</u><br>
+      (config-router)#default-information originate<u>partage de route par defaut</u><br>
+      </p>
+      </div>
+
+      <div class="zone-attention">
+      <strong>⚠️ ATTENTION :</strong>
+      <br>- le wildcard mask est l’inverse du masque classique (255.255.255.0 → 0.0.0.255)
+      <br>- la commande network active OSPF sur les interfaces (pas juste annoncer un réseau)
+      <br>- les routeurs doivent être dans la même area (souvent area 0)
+      <br>- sans voisin OSPF → aucune route échangée
+      </div>
+
+      <h2>route de secours(routeur)</h2>
+      <div class="zone-centre">
+      <p>
+      (config)#ip route <u>réseau destination</u> <u>masque</u> <u>next-hop</u> <u>distance administrative</u><br>
+      </p>
+      </div>
+
+      <div class="zone-attention">
+      <strong>⚠️ ATTENTION :</strong> la distance administrative doit être supérieure à OSPF (110)
+      </div>
 
     </div>
   </div>
